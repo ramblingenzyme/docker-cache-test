@@ -5,7 +5,9 @@ COPY main.package.json ./package.json
 COPY main.yarn.lock ./yarn.lock
 RUN yarn install --frozen-lockfile --non-interactive
 
-FROM base_build
+FROM node:${NODE_VERSION}-bullseye
+
+COPY --from=base_build /usr/local/share/.cache/yarn/v6 /usr/local/share/.cache/yarn/v6
 
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --non-interactive
